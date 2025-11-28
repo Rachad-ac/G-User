@@ -41,13 +41,14 @@ class MainActivity : ComponentActivity() {
                 userService.createUser(user).enqueue(object : Callback<User> {
                     override fun onResponse(call: Call<User>, response: Response<User>) {
                         if(response.isSuccessful) {
-                            Toast.makeText(this@MainActivity, "Utilisateur créé avec succès", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MainActivity, response.body()?.message, Toast.LENGTH_LONG).show()
 
                             editNom.text.clear()
                             editEmail.text.clear()
                             editMessage.text.clear()
+
                         }else {
-                            Toast.makeText(this@MainActivity, "Erreur lors de la création de l'utilisateur", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MainActivity, response.body()?.message, Toast.LENGTH_LONG).show()
                         }
                     }
 

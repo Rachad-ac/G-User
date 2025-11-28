@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.model.Responses;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,53 +19,112 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User user) {
+    public Responses create(@RequestBody User user) {
         try {
-            return userService.create(user);
+            User payload = userService.create(user);
+            return new Responses(
+                    "success",
+                    "Utilisateur créé avec succès",
+                    payload
+            );
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la création de user : " + e.getMessage());
+
+            System.err.println("Erreur : "+ e.getMessage());
+
+            return new Responses(
+                    "error",
+                    "Erreur lors de la création de l'utilisateur",
+                    null
+            );
         }
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User update(@PathVariable("id") Long id, @RequestBody User user) {
-        user.setId(id);
+    public Responses update(@PathVariable("id") Long id, @RequestBody User user) {
         try {
-            return userService.update(user);
-        }catch (Exception e){
-            throw new RuntimeException("Erreur lors de la mise a jour de user : " + e.getMessage());
+            user.setId(id);
+            User payload = userService.update(user);
+            return new Responses(
+                    "success",
+                    "Utilisateur mis à jour avec succès",
+                    payload
+            );
+        } catch (Exception e) {
+
+            System.err.println("Erreur : "+ e.getMessage());
+
+            return new Responses(
+                    "error",
+                    "Erreur lors de la mise à jour",
+                    null
+            );
         }
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User get(@PathVariable Long id){
+    public Responses get(@PathVariable Long id) {
         try {
-           return userService.get(id);
+            User payload = userService.get(id);
+            return new Responses(
+                    "success",
+                    "Utilisateur récupéré avec succès",
+                    payload
+            );
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la recuperation de user" + e.getMessage());
+
+            System.err.println("Erreur : "+ e.getMessage());
+
+            return new Responses(
+                    "error",
+                    "Erreur lors de la récupération",
+                    null
+            );
         }
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAll(User user){
+    public Responses getAll() {
         try {
-            return userService.getAll(user);
+            List<User> payload = userService.getAll();
+            return new Responses(
+                    "success",
+                    payload.size() + " utilisateurs trouvés",
+                    payload
+            );
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la recuperation des users" + e.getMessage());
+
+            System.err.println("Erreur : "+ e.getMessage());
+
+            return new Responses(
+                    "error",
+                    "Erreur lors de la récupération de la liste",
+                    null
+            );
         }
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id){
+    @ResponseStatus(HttpStatus.OK)
+    public Responses delete(@PathVariable("id") Long id) {
         try {
             userService.delete(id);
+            return new Responses(
+                    "success",
+                    "Utilisateur supprimé avec succès",
+                    null
+            );
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la recuperation de user" + e.getMessage());
+
+            System.err.println("Erreur : "+ e.getMessage());
+
+            return new Responses(
+                    "error",
+                    "Erreur lors de la suppression",
+                    null
+            );
         }
     }
-
 }
