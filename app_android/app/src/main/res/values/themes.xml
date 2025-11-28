@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Thème moderne basé sur Material 3 -->
+    <style name="Theme.App" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Couleur principale -->
+        <item name="colorPrimary">@color/purple_700</item>
+        <item name="colorPrimaryContainer">@color/purple_200</item>
+
+        <!-- Couleur secondaire -->
+        <item name="colorSecondary">@color/teal_700</item>
+
+        <!-- Fond général -->
+        <item name="android:windowBackground">@color/white</item>
+
+        <!-- Barre de statut -->
+        <item name="android:statusBarColor">@color/purple_700</item>
+
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@color/white</item>
+
+    </style>
+
+</resources>
